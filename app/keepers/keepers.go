@@ -49,6 +49,7 @@ import (
 	icahost "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host"
 	icahostkeeper "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/keeper"
 	icahosttypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/types"
+	fee "github.com/cosmos/ibc-go/v5/modules/apps/29-fee"
 	ibcfeekeeper "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/keeper"
 	ibcfeetypes "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/types"
 	"github.com/cosmos/ibc-go/v5/modules/apps/transfer"
@@ -370,11 +371,12 @@ func NewAppKeeper(
 		routerkeeper.DefaultRefundTransferPacketTimeoutTimestamp,
 	)
 
+	feeMiddleWare := fee.NewIBCMiddleware(appKeepers.RouterModule, appKeepers.IBCFeeKeeper)
 	// create static IBC router, add transfer route, then set and seal it
 	ibcRouter := porttypes.NewRouter()
 	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, icaControllerIBCModule).
 		AddRoute(icahosttypes.SubModuleName, icaHostIBCModule).
-		AddRoute(ibctransfertypes.ModuleName, appKeepers.RouterModule).
+		AddRoute(ibctransfertypes.ModuleName, feeMiddleWare).
 		AddRoute(icamauthtypes.ModuleName, icaControllerIBCModule)
 
 	appKeepers.IBCKeeper.SetRouter(ibcRouter)
