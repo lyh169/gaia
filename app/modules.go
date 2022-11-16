@@ -43,6 +43,8 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ica "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts"
 	icatypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
+	fee "github.com/cosmos/ibc-go/v5/modules/apps/29-fee"
+	ibcfeetypes "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/types"
 	"github.com/cosmos/ibc-go/v5/modules/apps/transfer"
 	ibctransfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
 	ibc "github.com/cosmos/ibc-go/v5/modules/core"
@@ -108,6 +110,7 @@ var ModuleBasics = module.NewBasicManager(
 	ica.AppModuleBasic{},
 	icamauth.AppModuleBasic{},
 	globalfee.AppModule{},
+	fee.AppModuleBasic{},
 )
 
 func appModules(
@@ -147,6 +150,7 @@ func appModules(
 		app.ICAModule,
 		app.ICAMauthModule,
 		app.RouterModule,
+		fee.NewAppModule(app.IBCFeeKeeper),
 	}
 }
 
@@ -209,6 +213,7 @@ func orderBeginBlockers() []string {
 		icatypes.ModuleName,
 		icamauthtypes.ModuleName,
 		globalfee.ModuleName,
+		ibcfeetypes.ModuleName,
 	}
 }
 
@@ -239,6 +244,7 @@ func orderEndBlockers() []string {
 		icatypes.ModuleName,
 		icamauthtypes.ModuleName,
 		globalfee.ModuleName,
+		ibcfeetypes.ModuleName,
 	}
 }
 
@@ -269,5 +275,6 @@ func orderInitBlockers() []string {
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
 		globalfee.ModuleName,
+		ibcfeetypes.ModuleName,
 	}
 }
