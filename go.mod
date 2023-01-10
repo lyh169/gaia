@@ -291,7 +291,8 @@ require (
 
 replace (
 	github.com/cosmos/cosmos-sdk => github.com/cosmos/cosmos-sdk v0.46.4
-	github.com/cosmos/ibc-go/v5 => github.com/cosmos/ibc-go/v5 v5.0.1
+	//github.com/cosmos/ibc-go/v5 => github.com/cosmos/ibc-go/v5 v5.0.1
+	github.com/cosmos/ibc-go/v5 => github.com/lyh169/ibc-go/v5 v5.0.2
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/zondax/hid => github.com/zondax/hid v0.9.0
 )
